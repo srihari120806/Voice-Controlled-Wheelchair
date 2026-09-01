@@ -1,37 +1,49 @@
-# ♿ Voice Controlled Wheelchair
+# ♿ Smart Voice-Controlled Wheelchair
 
-An Arduino-based prototype for controlling wheelchair movement using smartphone voice commands sent over Bluetooth.
+An upgraded Arduino-based smart wheelchair prototype controlled through Bluetooth voice commands, with obstacle detection and safety-focused control features.
 
-## Features
-- Voice-command control from a smartphone
-- Wireless communication using HC-05 Bluetooth
-- Arduino UNO command processing
-- L298N motor driver control
-- Forward, backward, left, right and stop commands
+> ⚠️ **Prototype / educational project:** This project is intended for learning and prototype development. It must not be used to control a real wheelchair carrying a person without professional-grade motor controllers, redundant safety systems, testing, and qualified engineering review.
 
-## Hardware
-- Arduino UNO
-- HC-05 Bluetooth module
-- L298N motor driver
-- 2 DC geared motors
-- Wheelchair/chassis platform
-- Battery pack
-- Jumper wires
-- Smartphone with a voice-command application
+## ✨ Features
 
-## Control Mapping
+- 🎙️ Bluetooth voice command control using HC-05
+- ↔️ Forward, backward, left, right and stop movement
+- 🚧 Ultrasonic obstacle detection
+- 🛑 Physical emergency-stop button
+- ⚡ Three speed levels
+- 🔊 Buzzer feedback and safety alerts
+- ⏱️ Command timeout that stops motors after inactivity
 
-| Command | Character | Action |
-|---|---|---|
-| Forward | `F` | Move forward |
-| Backward | `B` | Move backward |
-| Left | `L` | Turn left |
-| Right | `R` | Turn right |
-| Stop | `S` | Stop motors |
+## 🧰 Components
 
-## Arduino Connections
+| Component | Quantity |
+|---|---:|
+| Arduino UNO | 1 |
+| HC-05 Bluetooth Module | 1 |
+| L298N Motor Driver | 1 |
+| DC Motors | 2 |
+| HC-SR04 Ultrasonic Sensor | 1 |
+| Push Button | 1 |
+| Buzzer | 1 |
+| Battery / suitable regulated power system | 1 |
+
+## 🎮 Commands
+
+| Command | Action |
+|---|---|
+| F | Forward |
+| B | Backward |
+| L | Left |
+| R | Right |
+| S | Stop |
+| 1 | Slow |
+| 2 | Medium |
+| 3 | Fast |
+
+## 🔌 Pin Connections
 
 ### L298N → Arduino UNO
+
 | L298N | Arduino |
 |---|---|
 | ENA | D5 |
@@ -40,33 +52,47 @@ An Arduino-based prototype for controlling wheelchair movement using smartphone 
 | IN3 | D8 |
 | IN4 | D9 |
 | ENB | D10 |
-| GND | GND |
 
-### HC-05 → Arduino UNO
-| HC-05 | Arduino |
+### HC-SR04 → Arduino
+
+| Sensor | Arduino |
 |---|---|
+| TRIG | D11 |
+| ECHO | D12 |
 | VCC | 5V |
 | GND | GND |
-| TXD | RX (D0) |
-| RXD | TX (D1) through a suitable voltage divider |
 
-## How It Works
-1. A voice-command app on the smartphone converts speech into a control character.
-2. The character is transmitted to the HC-05 Bluetooth module.
-3. Arduino UNO reads the serial command.
-4. Arduino drives the L298N motor driver.
-5. The motors move according to the received command.
+### Additional
 
-## Important Safety Note
-This repository contains a prototype control system. It should be tested with the drive wheels safely lifted or at very low speed before any human use. A real mobility device requires additional safety features such as emergency stop, fault detection, protected power electronics, braking, obstacle sensing and thorough supervised testing.
+- Emergency Stop Button → D4 and GND
+- Buzzer → D13 and GND
+- HC-05 TX → Arduino RX
+- Arduino TX → HC-05 RX through appropriate level shifting
 
-## Files
-```text
+## 🧠 Safety Logic
+
+When moving forward, the controller checks the ultrasonic sensor. If an obstacle is detected within the configured safe distance, the motors stop and the buzzer alerts the user.
+
+A command timeout also stops the motors after 3 seconds without a new command.
+
+## 🚀 Getting Started
+
+1. Connect the components according to the pin table.
+2. Upload `Smart_Voice_Controlled_Wheelchair.ino` using Arduino IDE.
+3. Pair the HC-05 module with a compatible Bluetooth controller.
+4. Configure the controller to send the listed commands.
+5. Test using a small unloaded prototype first.
+
+## 📁 Project Structure
+
+```
 Voice-Controlled-Wheelchair/
+├── Smart_Voice_Controlled_Wheelchair.ino
 ├── Voice_Controlled_Wheelchair.ino
 ├── components.txt
 └── README.md
 ```
 
-## Author
+## 👨‍💻 Author
+
 **M. Srihari**
